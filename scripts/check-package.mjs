@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { root, identity } from './package-identity.mjs';
+const expected=await identity();const caps=JSON.parse(await fs.readFile(path.join(root,'capabilities.json'),'utf8'));
+if(caps.version!==expected.version)throw new Error('Capability/package identity drift');
+const skill=await fs.readFile(path.join(root,'skill/cmmcli/SKILL.md'),'utf8');
+if(!skill.includes(`版本：${expected.version}`)||skill.includes('[TODO'))throw new Error('Skill/package identity drift');
+const actual=JSON.parse(await fs.readFile(path.join(root,'integrity.json'),'utf8'));
+if(JSON.stringify(actual)!==JSON.stringify(expected))throw new Error('Distribution integrity drift: run the authorized version sync before packing');
+console.error(`Validated ${expected.package}@${expected.version} and ${Object.keys(expected.files).length} distribution hashes`);

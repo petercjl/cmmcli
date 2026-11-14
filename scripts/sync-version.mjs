@@ -1,0 +1,12 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { root, identity, preserveAndWrite } from './package-identity.mjs';
+const pkg=JSON.parse(await fs.readFile(path.join(root,'package.json'),'utf8'));
+const capsFile=path.join(root,'capabilities.json');const caps=JSON.parse(await fs.readFile(capsFile,'utf8'));caps.version=pkg.version;
+await preserveAndWrite(capsFile,JSON.stringify(caps,null,2)+'\n');
+const skillFile=path.join(root,'skill/cmmcli/SKILL.md');const skill=await fs.readFile(skillFile,'utf8');
+if(!/版本：\d+\.\d+\.\d+/.test(skill))throw new Error('Skill version marker missing');
+await preserveAndWrite(skillFile,skill.replace(/版本：\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?/,`版本：${pkg.version}`));
+const lockFile=path.join(root,'package-lock.json');const lock=JSON.parse(await fs.readFile(lockFile,'utf8'));lock.version=pkg.version;lock.packages[''].version=pkg.version;await preserveAndWrite(lockFile,JSON.stringify(lock,null,2)+'\n');
+await preserveAndWrite(path.join(root,'integrity.json'),JSON.stringify(await identity(),null,2)+'\n');
+console.log(`Synchronized package/Skill/integrity identity: ${pkg.name}@${pkg.version}`);

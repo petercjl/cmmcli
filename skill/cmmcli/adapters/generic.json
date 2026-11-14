@@ -1,0 +1,35 @@
+{
+  "schema": "portable-skill-adapter",
+  "platform": "generic",
+  "mappings": [
+    {
+      "capability_id": "chanmama.product.search",
+      "status": "implemented",
+      "features": [
+        "keyword",
+        "pagination",
+        "xlsx-export",
+        "request-evidence"
+      ],
+      "implementation": {
+        "kind": "cli",
+        "entry": ".runtime/bin/cmmcli.mjs",
+        "runtime": "Node.js >=22",
+        "discovery": [
+          "version --json",
+          "capabilities --json",
+          "doctor --json"
+        ],
+        "command": "search <keyword> --json",
+        "fallback": "Canonical package entry from skill source before installation"
+      },
+      "normalization": {
+        "success": "ok:true; artifact and metadata; task_id/cost null",
+        "failure": "ok:false with error.code/message/details"
+      },
+      "evidence": [
+        "CLI source smoke verified on macOS; broader hosts remain untested"
+      ]
+    }
+  ]
+}

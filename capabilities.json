@@ -1,0 +1,427 @@
+{
+  "ok": true,
+  "schemaVersion": 1,
+  "package": "@petercjl/cmmcli",
+  "version": "0.1.1",
+  "kind": "cli-skill",
+  "skills": [
+    "cmmcli"
+  ],
+  "commandContracts": {
+    "version": {
+      "sideEffects": "none",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        }
+      }
+    },
+    "capabilities": {
+      "sideEffects": "none",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        }
+      }
+    },
+    "doctor": {
+      "sideEffects": "none",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        },
+        "--cdp": {
+          "type": "string"
+        }
+      }
+    },
+    "search": {
+      "sideEffects": "local-write",
+      "arguments": {
+        "keyword": {
+          "type": "string",
+          "required": true
+        }
+      },
+      "options": {
+        "--json": {
+          "type": "boolean"
+        },
+        "--pages": {
+          "type": "string",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 100,
+          "parser": "integer 1..100"
+        },
+        "--all": {
+          "type": "boolean"
+        },
+        "--day": {
+          "type": "string",
+          "enum": [
+            "1",
+            "7",
+            "30"
+          ],
+          "default": "1"
+        },
+        "--sort": {
+          "type": "string",
+          "enum": [
+            "duration_volume",
+            "duration_amount"
+          ],
+          "default": "duration_volume"
+        },
+        "--order": {
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ],
+          "default": "desc"
+        },
+        "--output": {
+          "type": "string"
+        },
+        "--cdp": {
+          "type": "string"
+        }
+      }
+    },
+    "skill source": {
+      "sideEffects": "none",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        },
+        "--name": {
+          "type": "string"
+        }
+      }
+    },
+    "update check": {
+      "sideEffects": "none",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        }
+      }
+    },
+    "update status": {
+      "sideEffects": "none",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        }
+      }
+    },
+    "update install": {
+      "sideEffects": "package-and-skill-update",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        },
+        "--target": {
+          "type": "string"
+        },
+        "--agent": {
+          "type": "string"
+        },
+        "--version": {
+          "type": "string"
+        },
+        "--yes": {
+          "type": "boolean"
+        }
+      }
+    },
+    "skill status": {
+      "sideEffects": "none",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        },
+        "--target": {
+          "type": "string"
+        },
+        "--agent": {
+          "type": "string"
+        }
+      }
+    },
+    "skill install": {
+      "sideEffects": "local-write",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        },
+        "--target": {
+          "type": "string"
+        },
+        "--agent": {
+          "type": "string"
+        }
+      }
+    },
+    "skill update": {
+      "sideEffects": "local-write",
+      "options": {
+        "--json": {
+          "type": "boolean"
+        },
+        "--target": {
+          "type": "string"
+        },
+        "--agent": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "discoveryContract": {
+    "schemaVersion": 1,
+    "commandsField": "commandContracts",
+    "entryPoints": [
+      {
+        "argv": [
+          "capabilities",
+          "--json"
+        ],
+        "result": "manifest"
+      },
+      {
+        "argv": [
+          "skill",
+          "source",
+          "--json"
+        ],
+        "result": "source"
+      }
+    ],
+    "version": {
+      "command": "version",
+      "argv": [
+        "version",
+        "--json"
+      ],
+      "fields": {
+        "package": {
+          "field": "package",
+          "type": "string"
+        },
+        "version": {
+          "field": "version",
+          "type": "string"
+        }
+      }
+    },
+    "skillCollection": {
+      "namesField": "skills",
+      "default": "cmmcli",
+      "selector": {
+        "option": "--name",
+        "type": "string"
+      },
+      "enumeration": {
+        "argv": [
+          "skill",
+          "source",
+          "--json"
+        ],
+        "itemsField": "items",
+        "completeField": "complete"
+      },
+      "namedSource": [
+        "skill",
+        "source",
+        "--name",
+        "{skill}",
+        "--json"
+      ]
+    }
+  },
+  "maintenanceContract": {
+    "schemaVersion": 1,
+    "source": {
+      "name": {
+        "field": "name",
+        "type": "string"
+      },
+      "package": {
+        "field": "package",
+        "type": "string"
+      },
+      "version": {
+        "field": "version",
+        "type": "string"
+      },
+      "path": {
+        "field": "path",
+        "type": "string"
+      }
+    },
+    "status": {
+      "name": {
+        "field": "name",
+        "type": "string"
+      },
+      "package": {
+        "field": "package",
+        "type": "string"
+      },
+      "version": {
+        "field": "version",
+        "type": "string"
+      },
+      "target": {
+        "field": "target",
+        "type": "string"
+      },
+      "installed": {
+        "field": "installed",
+        "type": "boolean"
+      },
+      "managed": {
+        "field": "managed",
+        "type": "boolean"
+      },
+      "current": {
+        "field": "current",
+        "type": "boolean"
+      },
+      "edited": {
+        "field": "edited",
+        "type": "string[]"
+      },
+      "verification": {
+        "field": "verification",
+        "type": "object"
+      },
+      "recovery": {
+        "field": "recovery",
+        "type": "object"
+      }
+    },
+    "targetOptions": {
+      "--target": {
+        "kind": "skill-directory"
+      }
+    },
+    "agentEligibility": "valid-name-with-generic-fallback",
+    "hostDiscoveryAuthority": "host"
+  },
+  "installationLifecycle": {
+    "skillRequired": true,
+    "updateRequiresSkillSync": true,
+    "required_components": [
+      "cli",
+      "skill"
+    ],
+    "physicalIsolation": true,
+    "bootstrapGuidance": {
+      "install": "INSTALL.md",
+      "update": "UPDATE.md"
+    },
+    "installHandoff": "Current Agent resolves exact destination and invokes skill install; host confirms discovery.",
+    "updateHandoff": "Resolve selected target before update install; sync independent runtime and Skill; verify hashes and version.",
+    "verificationHandoff": "CLI verifies content; host verifies native discovery separately.",
+    "agentNeutral": true,
+    "targetRequired": true,
+    "hostRegistrationRequired": true,
+    "installationMode": "copy",
+    "sharedLinksAllowed": false,
+    "isolatedRuntimeRequired": true,
+    "install": "Current Agent resolves exact destination and invokes skill install; host confirms discovery.",
+    "update": "Resolve selected target before update install; sync independent runtime and Skill; verify hashes and version.",
+    "verification": "CLI verifies content; host verifies native discovery separately."
+  },
+  "autoUpdate": {
+    "trigger": "search",
+    "channel": "latest",
+    "cacheHours": 24,
+    "timeoutMs": 2000,
+    "disable": "CMMCLI_UPDATE_CHECK=0",
+    "automaticInstall": false,
+    "commands": [
+      "update check",
+      "update status",
+      "update install"
+    ]
+  },
+  "auth": {
+    "owner": "authenticated Chrome session",
+    "persistence": "browser-only",
+    "serviceReads": [
+      "product-search"
+    ],
+    "externalWrites": false
+  },
+  "capabilities": [
+    {
+      "id": "chanmama.product.search",
+      "required_features": [
+        "keyword",
+        "pagination",
+        "xlsx-export",
+        "request-evidence"
+      ],
+      "inputs": [
+        "keyword",
+        "pages",
+        "day",
+        "sort",
+        "order",
+        "output"
+      ],
+      "outputs": [
+        "rows",
+        "pageEvidence",
+        "artifact",
+        "totalMatched",
+        "accessibleTotal",
+        "fetched"
+      ],
+      "side_effects": [
+        "local-files",
+        "browser-search-tab",
+        "service-search-history"
+      ],
+      "permission": "User-authorized logged-in read queries; no business mutations"
+    }
+  ],
+  "adapters": {
+    "generic": {
+      "required": [
+        "node>=22",
+        "command-execution",
+        "filesystem",
+        "local-chrome-cdp",
+        "chanmama-login"
+      ],
+      "status": "implemented"
+    },
+    "macos": {
+      "status": "implemented"
+    },
+    "windows": {
+      "status": "unresolved",
+      "note": "Not runtime-tested"
+    },
+    "linux": {
+      "status": "unresolved",
+      "note": "Not runtime-tested"
+    }
+  },
+  "automaticUpdates": {
+    "enabledByDefault": true,
+    "intervalHours": 24,
+    "timeoutMs": 2000,
+    "trigger": "search",
+    "configuration": "user-owned cache directory",
+    "disable": "CMMCLI_UPDATE_CHECK=0",
+    "recovery": "offline retains installed version; explicit update only",
+    "defaultMode": "notify"
+  }
+}

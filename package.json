@@ -1,0 +1,56 @@
+{
+  "name": "@petercjl/cmmcli",
+  "version": "0.1.1",
+  "description": "Chanmama product search and Excel export using an authenticated local Chrome session",
+  "type": "module",
+  "bin": {
+    "cmmcli": "bin/cmmcli.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "bin",
+    "src",
+    "skill",
+    "capabilities.json",
+    "README.md",
+    "INSTALL.md",
+    "UPDATE.md",
+    "scripts/check-package.mjs",
+    "scripts/package-identity.mjs",
+    "scripts/sync-version.mjs",
+    "integrity.json",
+    "LICENSE",
+    "TESTING.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "postinstall": "node bin/notice.mjs",
+    "prepack": "node scripts/check-package.mjs",
+    "check": "node scripts/check-package.mjs",
+    "sync-version": "node scripts/sync-version.mjs",
+    "test:packed": "node scripts/packed-smoke.mjs"
+  },
+  "dependencies": {
+    "commander": "14.0.3",
+    "playwright-core": "1.65.1",
+    "exceljs": "4.4.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "agentPackage": {
+    "kind": "cli-skill",
+    "skill": "cmmcli"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petercjl/cmmcli.git"
+  },
+  "homepage": "https://github.com/petercjl/cmmcli#readme",
+  "bugs": {
+    "url": "https://github.com/petercjl/cmmcli/issues"
+  }
+}

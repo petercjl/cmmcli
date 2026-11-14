@@ -1,0 +1,48 @@
+{
+  "schema": "portable-skill-capabilities",
+  "schema_version": "1.0.0",
+  "skill": "cmmcli",
+  "target_platforms": [
+    "generic"
+  ],
+  "host_resolution": {
+    "fallback_adapter": "generic",
+    "selection": "Current Agent supplies command execution and explicit Skill destination"
+  },
+  "capabilities": [
+    {
+      "id": "chanmama.product.search",
+      "purpose": "Search authenticated product results and export Excel",
+      "required": true,
+      "required_features": [
+        "keyword",
+        "pagination",
+        "xlsx-export",
+        "request-evidence"
+      ],
+      "input_fields": [
+        "keyword",
+        "pages",
+        "day",
+        "output"
+      ],
+      "output_fields": [
+        "rows",
+        "pageEvidence",
+        "artifact",
+        "fetched"
+      ],
+      "side_effects": {
+        "external_mutation": false,
+        "may_cost_money": false,
+        "authorization": "User-authorized read queries using existing account; local Excel and browser search history"
+      },
+      "errors": [
+        "AUTH_REQUIRED",
+        "PERMISSION_REQUIRED",
+        "OUTPUT_EXISTS",
+        "PAGE_CONTRACT_CHANGED"
+      ]
+    }
+  ]
+}

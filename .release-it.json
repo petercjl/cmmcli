@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "after:bump": "node scripts/sync-version.mjs",
+    "before:release": "npm run check && npm run test:packed"
+  }
+}
