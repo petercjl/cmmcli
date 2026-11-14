@@ -6,5 +6,5 @@ if(caps.version!==expected.version)throw new Error('Capability/package identity 
 const skill=await fs.readFile(path.join(root,'skill/cmmcli/SKILL.md'),'utf8');
 if(!skill.includes(`版本：${expected.version}`)||skill.includes('[TODO'))throw new Error('Skill/package identity drift');
 const actual=JSON.parse(await fs.readFile(path.join(root,'integrity.json'),'utf8'));
-if(JSON.stringify(actual)!==JSON.stringify(expected))throw new Error('Distribution integrity drift: run the authorized version sync before packing');
+if(JSON.stringify(actual)!==JSON.stringify(expected)){const changed=[...new Set([...Object.keys(actual.files||{}),...Object.keys(expected.files)])].filter(k=>actual.files?.[k]!==expected.files[k]);throw new Error('Distribution integrity drift in: '+changed.join(', '));}
 console.error(`Validated ${expected.package}@${expected.version} and ${Object.keys(expected.files).length} distribution hashes`);

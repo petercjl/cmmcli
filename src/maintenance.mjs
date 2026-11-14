@@ -67,7 +67,7 @@ export async function installSkill(options) {
       await cp(path.join(ROOT, 'node_modules'), path.join(runtime, 'node_modules'), { recursive: true, dereference: true, force: false, errorOnExist: true });
     } else {
       const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-      const args = ['install', '--prefix', runtime, '--omit=dev', '--ignore-scripts', '--no-audit', '--no-fund'];
+      const args = ['install', '--prefix', runtime, '--omit=dev', '--ignore-scripts', '--no-save', '--package-lock=false', '--no-audit', '--no-fund'];
       try { await run(npm, [...args, '--offline']); }
       catch (e) { if (/ENOTCACHED/.test(e.details?.diagnostic || '')) await run(npm, args); else throw e; }
       const physical = path.join(stage, '.physical-dependencies');
@@ -75,6 +75,12 @@ export async function installSkill(options) {
       await rm(path.join(runtime, 'node_modules'), { recursive: true });
       await rename(physical, path.join(runtime, 'node_modules'));
     }
+    // Dependency installation may normalize package metadata. Canonical package bytes own identity.
+    const manifestBackup = path.join(stage,'dependency-install-package.json');
+    await cp(path.join(runtime,'package.json'),manifestBackup,{force:false,errorOnExist:true});
+    await cp(path.join(ROOT,'package.json'),path.join(runtime,'package.json'),{force:true});
+    await run(process.execPath,[path.join(runtime,'scripts/check-package.mjs')]);
+    await rm(manifestBackup);
     await access(path.join(runtime, 'bin/cmmcli.mjs'));
     const latest = await skillStatus(options);
     if (JSON.stringify(latest.edited) !== JSON.stringify(before.edited) || latest.installed !== before.installed || latest.installed && !latest.managed)

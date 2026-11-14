@@ -13,7 +13,7 @@
     "bin/notice.mjs": "0841412c1b71216233ffefd38f1a96f0ea2b90ae1ba36e1c4eda5acd4220093e",
     "capabilities.json": "7d5b306075ab1eb21ae6895f6fc08dbf3c0ebd1e51b63c9e5557a7d8d4c1be82",
     "package.json": "a7e0c49d42d30c5b7d336e46e6d5512335b34b093cf144876a216acb60efb7a7",
-    "scripts/check-package.mjs": "8771d27a1fd7cbf968da16624c4995e619f0039baabf96ae364fc7b8e5615c29",
+    "scripts/check-package.mjs": "fb6e5f27a4548283ac8c69e8768fcab9d3bcb4aad214c0664435cc355ec48d03",
     "scripts/package-identity.mjs": "8673eb0d9e42b9a1b59de818d8373f54cae0f82c04dec1581f7b898c3c8e5def",
     "scripts/sync-version.mjs": "e8d29da7178c36a5151479a591ab54d6b37634fc3b6ddb7ccbcb978d2d9e69d6",
     "skill/cmmcli/SKILL.md": "74ca8d62144f5fef8b7fbd429ff38d3fed6207fe9ef8d42b5174f488efea62a6",
@@ -25,6 +25,6 @@
     "src/browser.mjs": "bfda6b8cf1eec2e82f6eb820bb2244620888c2a933308b0eafbb44a5eb53a21e",
     "src/errors.mjs": "806e4396d33336eecad98d72d711cd12a06ddbdb58383e7fb369000d75dd5898",
     "src/export.mjs": "eb259cfdc0cfd8cbae0823525b1c16b61736e0df30e6ab7c60ebb2df19ea95f4",
-    "src/maintenance.mjs": "83a09ca397039bad91cddd588a79e0878e7ccd3360c753a11086bea62c772ccc"
+    "src/maintenance.mjs": "a6313877749cea72a8a9d300bfc22a35c8d9fc9db2b0b68db3c97ae6f7c616b7"
   }
 }
